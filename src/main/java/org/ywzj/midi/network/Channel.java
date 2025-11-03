@@ -81,19 +81,9 @@ public class Channel {
                 PoseHandler::onServerMessageReceived,
                 Optional.of(PLAY_TO_CLIENT));
 
-        CHANNEL.registerMessage(PacketId.C_FAKE_PLAYER_DATA.value(), CFakePlayerUpdate.class,
-                CFakePlayerUpdate::encode, CFakePlayerUpdate::decode,
-                FakePlayerDataHandler::onServerMessageReceived,
-                Optional.of(PLAY_TO_SERVER));
-
         CHANNEL.registerMessage(PacketId.C_FILE_DATA.value(), CFileData.class,
                 CFileData::encode, CFileData::decode,
                 FileDataHandler::onServerMessageReceived,
-                Optional.of(PLAY_TO_SERVER));
-
-        CHANNEL.registerMessage(PacketId.C_PLAY_MIDI.value(), CPlayMidi.class,
-                CPlayMidi::encode, CPlayMidi::decode,
-                ServerPlayMidiHandler::onServerMessageReceived,
                 Optional.of(PLAY_TO_SERVER));
 
     }

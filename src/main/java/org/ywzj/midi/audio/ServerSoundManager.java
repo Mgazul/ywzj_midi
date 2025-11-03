@@ -9,7 +9,6 @@ import net.minecraftforge.network.PacketDistributor;
 import org.ywzj.midi.all.AllConfigs;
 import org.ywzj.midi.all.AllItems;
 import org.ywzj.midi.blockentity.SpeakerBlockEntity;
-import org.ywzj.midi.item.MusicPlayerItem;
 import org.ywzj.midi.network.Channel;
 import org.ywzj.midi.network.message.CSyncMusic;
 import org.ywzj.midi.network.message.MusicMessage;
@@ -61,24 +60,6 @@ public class ServerSoundManager {
                     PLAY_ENTITIES.remove(info.deviceUuid);
                     Channel.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message.getServerMessage());
                     continue;
-                } else if (playEntity instanceof Player) {
-                    boolean isDeviceInBag = ((Player)playEntity).getInventory().items.stream()
-                        .anyMatch(itemStack -> {
-                            if (itemStack.getItem().equals(AllItems.MUSIC_PLAYER.get())) {
-                                UUID deviceUuid = MusicPlayerItem.getUUID(itemStack);
-                                return deviceUuid != null && deviceUuid.equals(message.deviceUuid);
-                            }
-                            return false;
-                        });
-                    UUID deviceUuid = MusicPlayerItem.getUUID(((Player)playEntity).getOffhandItem());
-                    isDeviceInBag |= deviceUuid != null && deviceUuid.equals(message.deviceUuid);
-                    isDeviceInBag |= message.isDeviceCarried;
-                    if (!isDeviceInBag) {
-                        message.on = false;
-                        PLAY_ENTITIES.remove(info.deviceUuid);
-                        Channel.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message.getServerMessage());
-                        continue;
-                    }
                 }
                 info.x = playEntity.getX();
                 info.y = playEntity.getY();

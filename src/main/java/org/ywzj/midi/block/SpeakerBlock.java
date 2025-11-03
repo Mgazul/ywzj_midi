@@ -30,15 +30,6 @@ public class SpeakerBlock extends HorizontalBlock implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult ray) {
-        if (world.isClientSide) {
-            BlockEntity be = world.getBlockEntity(pos);
-            if (be instanceof SpeakerBlockEntity speakerBlockEntity) {
-                if (speakerBlockEntity.musicPlayerScreen == null) {
-                    speakerBlockEntity.musicPlayerScreen = new MusicPlayerScreen(new Vec3(pos.getX(), pos.getY(), pos.getZ()), ComponentUtils.literal("播放器"), speakerBlockEntity.getClientPlayerInstance());
-                }
-                ScreenManager.openSpeakerScreen(pos, speakerBlockEntity.musicPlayerScreen);
-            }
-        }
         return InteractionResult.SUCCESS;
     }
 

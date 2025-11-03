@@ -24,7 +24,7 @@ public class AllTabs {
             CreativeModeTab
                     .builder()
                     .title(ComponentUtils.translatable("tab.ywzj_midi"))
-                    .icon(AllItems.ITEMS_LOOKUP.get("aa775").get()::getDefaultInstance)
+                    .icon(AllItems.ITEMS_LOOKUP.get("u1h").get()::getDefaultInstance)
                     .displayItems((displayParams, output) -> TAB_ITEMS.forEach(itemLike -> output.accept(itemLike.get())))
                     .build());
 

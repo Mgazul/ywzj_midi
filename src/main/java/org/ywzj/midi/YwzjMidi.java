@@ -10,8 +10,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.ywzj.midi.all.*;
 import org.ywzj.midi.network.Channel;
-import org.ywzj.midi.render.renderer.FakePlayerRenderer;
-import org.ywzj.midi.render.renderer.SeatRenderer;
 
 @Mod(YwzjMidi.MODID)
 public class YwzjMidi
@@ -28,16 +26,11 @@ public class YwzjMidi
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         AllInstruments.preRegister();
-        AllHoldPose.preRegister();
-        AllNotesHandler.preRegister();
         AllConfigs.register(ModLoadingContext.get());
         AllBlockEntities.register(eventBus);
-        AllEntities.register(eventBus);
         AllTabs.register(eventBus);
         register(eventBus, MODID);
         eventBus.register(Channel.class);
-
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public static void register(IEventBus eventBus, String namespace) {
@@ -45,10 +38,4 @@ public class YwzjMidi
         AllBlocks.register(eventBus, namespace);
         AllSounds.register(eventBus, namespace);
     }
-
-    private void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> EntityRenderers.register(AllEntities.SEAT.get(), SeatRenderer::new));
-        event.enqueueWork(() -> EntityRenderers.register(AllEntities.FAKE_PLAYER.get(), FakePlayerRenderer::new));
-    }
-
 }

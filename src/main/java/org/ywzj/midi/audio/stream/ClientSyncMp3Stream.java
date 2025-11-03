@@ -8,7 +8,6 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.lwjgl.BufferUtils;
 import org.ywzj.midi.all.AllItems;
 import org.ywzj.midi.audio.sound.ClientSyncMusicSound;
-import org.ywzj.midi.item.MusicPlayerItem;
 import org.ywzj.midi.network.Channel;
 import org.ywzj.midi.network.message.CSyncMusic;
 
@@ -89,9 +88,7 @@ public class ClientSyncMp3Stream implements AudioStream {
             while (isReading) {
                 if (sendBuffer.size() >= sendOffset + size) {
                     assert Minecraft.getInstance().player != null;
-                    ItemStack itemCarried = Minecraft.getInstance().player.inventoryMenu.getCarried();
-                    boolean isDeviceCarried = itemCarried.getItem().equals(AllItems.MUSIC_PLAYER.get())
-                            && Objects.equals(MusicPlayerItem.getUUID(itemCarried), soundInstance.deviceUuid);
+
                     byte[] bytes = Arrays.copyOfRange(sendBuffer.toByteArray(), sendOffset, sendOffset + size);
                     Channel.CHANNEL.sendToServer(new CSyncMusic(soundInstance.playPos,
                             stream.getFormat().getSampleRate(),
@@ -100,7 +97,7 @@ public class ClientSyncMp3Stream implements AudioStream {
                             soundInstance.soundUuid,
                             soundInstance.playerInstance.portable,
                             soundInstance.playerInstance.deviceUuid,
-                            isDeviceCarried,
+                            false,
                             bytes));
                     sendOffset += size;
                 }
